@@ -1,8 +1,5 @@
 #!/bin/sh
 
-#################################################################################
-
-
 ####
 # 1.1. Internet ip address
 # 
@@ -20,7 +17,7 @@ Internet_IFACE="enp0s9"
 #
 # IP addresses of the client-side network
 #
-Client_NET_IP="192.168.0.100"
+Client_NET_IP="192.168.0.10"
 Client_NET_IP_RANGE="192.168.0.0/24"
 Client_NET_BCAST_ADRESS="192.168.0.255"
 Client_NET_IFACE="enp0s3"
@@ -32,7 +29,7 @@ Client_NET_IFACE="enp0s3"
 #
 # IP addresses of the server-side network
 #
-Server_NET_IP="10.0.0.100"
+Server_NET_IP="10.0.0.10"
 Server_NET_IP_RANGE="10.0.0.0/8"
 Server_NET_BCAST_ADRESS="10.255.255.255"
 Server_NET_IFACE="enp0s3"
@@ -179,9 +176,9 @@ echo "1" > /proc/sys/net/ipv4/ip_forward
 #
 
 # Whitelist (Whitelist is preferred)
-$IPTABLES -P INPUT DROP
-$IPTABLES -P OUTPUT DROP
-$IPTABLES -P FORWARD DROP
+#$IPTABLES -P INPUT DROP
+#$IPTABLES -P OUTPUT DROP
+#$IPTABLES -P FORWARD DROP
 
 # Blacklist
 $IPTABLES -P INPUT ACCEPT
@@ -246,9 +243,6 @@ $IPTABLES -P FORWARD ACCEPT
 # Allow http traffic from client network to server network
 #$IPTABLES -A FORWARD -p TCP --dport 80 -i $Client_NET_IFACE -s $Client_NET_IP_RANGE -d $WEB_IP_ADDRESS -j ACCEPT
 #$IPTABLES -A FORWARD -p TCP --sport 80 -i $Server_NET_IFACE -s $WEB_IP_ADDRESS -d $Client_NET_IP_RANGE -j ACCEPT
-
-$IPTABLES -A FORWARD -p tcp --dport 80 -i $Client_NET_IFACE -s $Client_NET_IP_RANGE -d $WEB_IP_ADDRESS -j ACCEPT
-$IPTABLES -A FORWARD -p tcp --sport 80 -i $Server_NET_IFACE -s $WEB_IP_ADDRESS -d $Client_NET_IP_RANGE -j ACCEPT
 
 # example of using allowed
 #$IPTABLES -A FORWARD -p tcp -j allowed
